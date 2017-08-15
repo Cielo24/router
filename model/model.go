@@ -123,6 +123,19 @@ func newGzipConfig() *GzipConfig {
 	}
 }
 
+// ProxyConfig encapsulates the configuration of an incoming proxy that has been placed in front of the app.
+type ProxyConfig struct {
+	HostHeader string `key:"hostHeader"`
+	Target string `key:"target"`
+}
+
+func NewProxyConfig() *ProxyConfig {
+	return &ProxyConfig {
+		HostHeader: "",
+		Target: "",
+	}
+}
+
 // AppConfig encapsulates the configuration for all routes to a single back end.
 type AppConfig struct {
 	Name           string
@@ -137,6 +150,7 @@ type AppConfig struct {
 	Maintenance    bool            `key:"maintenance" constraint:"(?i)^(true|false)$"`
 	SSLConfig      *SSLConfig      `key:"ssl"`
 	Nginx          *NginxAppConfig `key:"nginx"`
+	Proxy *ProxyConfig `key:"proxy"`
 }
 
 func newAppConfig(routerConfig *RouterConfig) (*AppConfig, error) {
@@ -150,6 +164,7 @@ func newAppConfig(routerConfig *RouterConfig) (*AppConfig, error) {
 		Certificates:   make(map[string]*Certificate, 0),
 		SSLConfig:      newSSLConfig(),
 		Nginx:          nginxConfig,
+		Proxy: NewProxyConfig(),
 	}, nil
 }
 
