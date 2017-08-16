@@ -279,6 +279,7 @@ http {
 
 			{{ if and $appConfig.Proxy $appConfig.Proxy.HostHeader $appConfig.Proxy.Target }}
 			proxy_set_header "{{ $appConfig.Proxy.HostHeader }}" "{{ $appConfig.ServiceIP }}";
+			proxy_set_header Host $host;
 			proxy_pass http://{{$appConfig.Proxy.Target}};
 			{{ else }}
 			proxy_pass http://{{$appConfig.ServiceIP}}:80;
