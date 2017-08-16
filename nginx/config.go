@@ -278,7 +278,7 @@ http {
 			{{ if $hstsConfig.Enabled }}add_header Strict-Transport-Security $sts always;{{ end }}
 
 			{{ if and $appConfig.Proxy $appConfig.Proxy.HostHeader $appConfig.Proxy.Target }}
-			proxy_set_header "{{ $appConfig.Proxy.HostHeader }}" "{{ $appConfig.ServiceIP }}";
+			proxy_set_header "{{ $appConfig.Proxy.HostHeader }}" $server_addr;
 			proxy_set_header Host $host;
 			proxy_pass http://{{$appConfig.Proxy.Target}};
 			{{ else }}
